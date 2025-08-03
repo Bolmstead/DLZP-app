@@ -5,7 +5,7 @@ import { Component, input, output } from '@angular/core';
   imports: [],
   template: `
     <button
-      class=" bg-blue-500 text-white w-full border px-5 py-2 rounded-xl shadow-md hover:opacity-90"
+      class="bg-blue-500 text-white w-full border px-3 sm:px-5 py-2 rounded-xl shadow-md hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
       (click)="btnClicked.emit()"
       [disabled]="disabled()"
     >

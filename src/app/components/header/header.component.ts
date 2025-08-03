@@ -8,13 +8,17 @@ import { Router } from '@angular/router';
   imports: [PrimaryButtonComponent],
   template: `
     <div
-      class="bg-slate-100 px-4 py-3 shadow-md flex justify-between items-center"
+      class="bg-slate-100 px-4 py-4 shadow-md flex justify-between items-center"
     >
-      Berkley's DLZP Angular App
-      <app-primary-button
-        [label]="'Cart(' + cartService.cart().length + ')'"
-        (btnClicked)="btnClick()"
-      />
+      <h1 class="text-lg sm:text-xl font-bold text-gray-800 truncate mr-4">
+        Berkley's DLZP Angular App
+      </h1>
+      <div class="flex-shrink-0 min-w-0">
+        <app-primary-button
+          [label]="'Cart (' + cartService.cart().length + ')'"
+          (btnClicked)="btnClick()"
+        />
+      </div>
     </div>
   `,
   styles: ``,

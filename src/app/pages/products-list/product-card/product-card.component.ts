@@ -8,11 +8,19 @@ import { CartService } from '../../../services/cart.service';
   imports: [PrimaryButtonComponent],
   template: `
     <div
-      class="border border-gray-300 rounded-md p-4 bg-white shadow-md  flex flex-col"
+      class="border border-gray-300 rounded-lg p-4 bg-white shadow-md flex flex-col h-full"
     >
-      <img [src]="product().image" alt="product image" />
-      <p class="text-sm font-bold">{{ product().title }}</p>
-      <p class="text-sm">{{ '$' + product().price }}</p>
+      <img
+        [src]="product().image"
+        alt="product image"
+        class="w-full h-48 object-cover rounded-md mb-3"
+      />
+      <div class="flex-grow">
+        <p class="text-base font-bold mb-2">{{ product().title }}</p>
+        <p class="text-lg font-semibold text-green-600 mb-4">
+          {{ '$' + product().price }}
+        </p>
+      </div>
       <app-primary-button
         [label]="'Add to cart'"
         (btnClicked)="cartService.addToCart(product())"
