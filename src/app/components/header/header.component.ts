@@ -9,13 +9,13 @@ import { PrimaryButtonComponent } from '../primary-button/primary-button.compone
       class="bg-slate-100 px-4 py-3 shadow-md flex justify-between items-center"
     >
       Berkley's DLZP Angular App
-      <app-primary-button label="Login" (btnClicked)="btnClick()" />
+      <app-primary-button label="Cart" (btnClicked)="btnClick()" />
     </div>
   `,
   styles: ``,
 })
 export class HeaderComponent {
   btnClick() {
-    console.log('button clicked');
+    console.log(' button clicked');
   }
 }
