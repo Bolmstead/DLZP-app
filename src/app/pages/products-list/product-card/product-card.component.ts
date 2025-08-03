@@ -25,6 +25,7 @@ import { CartService } from '../../../services/cart.service';
 export class ProductCardComponent {
   cartService = inject(CartService);
   product = input.required<Product>();
+  // checks if the product is already in the cart
   isButtonDisabled = computed(() => {
     const cartButtonDisabled = this.cartService
       .cart()
