@@ -5,21 +5,16 @@ import { Component, input, output } from '@angular/core';
   imports: [],
   template: `
     <button
-      class="bg-blue-500 text-white px-4 py-2 rounded-md"
-      (click)="handleButtonClick()"
+      class=" bg-blue-500 text-white w-full border px-5 py-2 rounded-xl shadow-md hover:opacity-90"
+      (click)="btnClicked.emit()"
     >
-      {{ label() }}
+      <span class="text-md">{{ label() }}</span>
     </button>
   `,
   styles: ``,
 })
 export class PrimaryButtonComponent {
-  label = input.required<string>();
+  label = input<string>();
 
-  btnClicked = output<void>();
-
-  handleButtonClick() {
-    console.log('handleButtonClick executed');
-    this.btnClicked.emit();
-  }
+  btnClicked = output();
 }

@@ -13,4 +13,8 @@ export const routes: Routes = [
     pathMatch: 'full',
     component: CartComponent,
   },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];
