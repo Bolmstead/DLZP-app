@@ -19,6 +19,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
   styles: ``,
 })
 export class ProductListComponent {
+  // placeholder products
   products = signal<Product[]>([
     {
       id: 1,
