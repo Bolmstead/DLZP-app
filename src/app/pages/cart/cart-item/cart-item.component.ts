@@ -4,24 +4,24 @@ import { PrimaryButtonComponent } from '../../../components/primary-button/prima
 import { CartService } from '../../../services/cart.service';
 
 @Component({
-  selector: 'app-product-card',
+  selector: 'app-cart-item',
   imports: [PrimaryButtonComponent],
   template: `
-    <div
-      class="border border-gray-300 rounded-md p-4 bg-white shadow-md  flex flex-col"
-    >
+    <div class="flex items-center gap-4 border border-gray-300 rounded-md p-4">
       <img [src]="product().image" alt="product image" />
-      <p class="text-sm font-bold">{{ product().title }}</p>
-      <p class="text-sm">{{ '$' + product().price }}</p>
+      <div>
+        <p class="text-sm font-bold">{{ product().title }}</p>
+        <p class="text-sm">{{ '$' + product().price }}</p>
+      </div>
       <app-primary-button
-        [label]="'Add to cart'"
-        (btnClicked)="cartService.addToCart(product())"
+        [label]="'Remove'"
+        (btnClicked)="cartService.removeFromCart(product())"
       />
     </div>
   `,
   styles: ``,
 })
-export class ProductCardComponent {
+export class CartItemComponent {
   cartService = inject(CartService);
   product = input.required<Product>();
 }
