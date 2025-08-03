@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { Product } from '../../../../models/products.model';
 import { PrimaryButtonComponent } from '../../../components/primary-button/primary-button.component';
 import { CartService } from '../../../services/cart.service';
@@ -16,6 +16,7 @@ import { CartService } from '../../../services/cart.service';
       <app-primary-button
         [label]="'Add to cart'"
         (btnClicked)="cartService.addToCart(product())"
+        [disabled]="isButtonDisabled()"
       />
     </div>
   `,
@@ -24,4 +25,11 @@ import { CartService } from '../../../services/cart.service';
 export class ProductCardComponent {
   cartService = inject(CartService);
   product = input.required<Product>();
+  isButtonDisabled = computed(() => {
+    const cartButtonDisabled = this.cartService
+      .cart()
+      .some((p) => p.id === this.product().id);
+    console.log('cartButtonDisabled:: ', cartButtonDisabled);
+    return cartButtonDisabled;
+  });
 }

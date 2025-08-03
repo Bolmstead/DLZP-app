@@ -7,6 +7,7 @@ import { Component, input, output } from '@angular/core';
     <button
       class=" bg-blue-500 text-white w-full border px-5 py-2 rounded-xl shadow-md hover:opacity-90"
       (click)="btnClicked.emit()"
+      [disabled]="disabled()"
     >
       <span class="text-md">{{ label() }}</span>
     </button>
@@ -15,6 +16,6 @@ import { Component, input, output } from '@angular/core';
 })
 export class PrimaryButtonComponent {
   label = input<string>();
-
+  disabled = input<boolean>();
   btnClicked = output();
 }

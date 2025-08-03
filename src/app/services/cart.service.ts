@@ -8,6 +8,7 @@ export class CartService {
   cart = signal<Product[]>([]);
 
   addToCart(product: Product) {
+    console.log('addToCart:: ', product);
     this.cart.update((prev) => [...prev, product]);
   }
 

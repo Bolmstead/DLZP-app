@@ -1,16 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
 import { PrimaryButtonComponent } from '../primary-button/primary-button.component';
 import { CartService } from '../../services/cart.service';
-import { RouterLink, Router, RouterLinkActive } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [PrimaryButtonComponent, RouterLink, RouterLinkActive],
+  imports: [PrimaryButtonComponent],
   template: `
     <div
       class="bg-slate-100 px-4 py-3 shadow-md flex justify-between items-center"
-      [routerLink]="['/']"
-      routerLinkActive="bg-slate-200"
     >
       Berkley's DLZP Angular App
       <app-primary-button
@@ -27,6 +25,6 @@ export class HeaderComponent {
 
   btnClick() {
     console.log(' button clicked');
-    this.router.navigate(['/cart']);
+    this.router.navigate(['cart']);
   }
 }
