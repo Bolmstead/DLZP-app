@@ -3,9 +3,11 @@ import { Component, signal } from '@angular/core';
 @Component({
   selector: 'app-header',
   imports: [],
-  template: ` <p>{{ title() }}</p> `,
+  template: `
+    <div class="bg-slate-100 px-4 py-3 shadow-md">
+      Berkley's DLZP Angular App
+    </div>
+  `,
   styles: ``,
 })
-export class HeaderComponent {
-  title = signal("Berkley's DLZP Angular App");
-}
+export class HeaderComponent {}
