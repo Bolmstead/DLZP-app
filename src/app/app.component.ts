@@ -1,29 +1,20 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { JsonPipe } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
+import { ChatComponent } from './chat/chat.component';
 import { ApiService } from './services/api.service';
 import { Product } from '../models/products.model';
 import { ProductsService } from './services/products.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, JsonPipe],
+  imports: [RouterOutlet, HeaderComponent, ChatComponent],
   template: `
     <app-header />
     <router-outlet />
 
-    <!-- Example of displaying loading state and data -->
-    <div style="padding: 20px;">
-      @if (isLoading()) {
-      <p></p>
-      } @else if (apiData()) {
-      <h3>API Data Loaded:</h3>
-      <pre>{{ apiData() | json }}</pre>
-      } @else if (error()) {
-      <p style="color: red;">Error: {{ error() }}</p>
-      }
-    </div>
+    <!-- Chat component - fixed position in bottom right -->
+    <app-chat />
   `,
   styles: [],
 })

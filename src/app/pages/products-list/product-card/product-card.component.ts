@@ -13,7 +13,7 @@ import { CartService } from '../../../services/cart.service';
       <img
         [src]="product().image"
         alt="product image"
-        class="w-32 h-32 object-contain rounded-md mb-3 mx-auto"
+        class="w-64 h-64 object-contain rounded-md mb-3 mx-auto"
       />
       <div class="flex-grow">
         <p class="text-base font-bold mb-2">{{ product().title }}</p>
