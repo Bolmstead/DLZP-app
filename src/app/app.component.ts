@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
     this.error.set(null);
 
     // Example API call using the service
-    this.apiService.getProductsBySubCategory('Electronics').subscribe({
+    this.apiService.getProductsBySubCategory('Home & Garden').subscribe({
       next: (data) => {
         console.log('API data loaded:', data);
         const fetchedProducts: Product[] = [];
