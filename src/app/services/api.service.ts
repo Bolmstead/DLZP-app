@@ -12,11 +12,11 @@ export class ApiService {
   private baseUrl = 'https://freebay-backend-310a33634097.herokuapp.com';
 
   // Example: Get user data
-  getProductsBySubCategory(subCategory: string): Observable<any> {
+  getProductsBySubCategory(category: string): Observable<any> {
     // Encode the subCategory string to handle spaces and special characters in the URL
-    subCategory = encodeURIComponent(subCategory);
+    category = encodeURIComponent(category);
     const result = this.http.get(
-      `${this.baseUrl}/products/?subCategory=${subCategory}`
+      `${this.baseUrl}/products/?category=${category}`
     );
     console.log('result:: ', result);
     return result;

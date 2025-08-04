@@ -16,7 +16,7 @@ import { ProductsService } from './services/products.service';
     <!-- Example of displaying loading state and data -->
     <div style="padding: 20px;">
       @if (isLoading()) {
-      <p>Loading...</p>
+      <p></p>
       } @else if (apiData()) {
       <h3>API Data Loaded:</h3>
       <pre>{{ apiData() | json }}</pre>
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
   private productsService = inject(ProductsService);
   // Signals for reactive state management
   apiData = signal<any>(null);
-  isLoading = signal<boolean>(false);
+  isLoading = this.productsService.productsLoading;
   error = signal<string | null>(null);
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
   }
 
   private loadInitialData() {
-    this.isLoading.set(true);
+    this.productsService.setProductsLoading(true);
     this.error.set(null);
 
     // Example API call using the service
@@ -69,12 +69,12 @@ export class AppComponent implements OnInit {
             'productsService.products():: ',
             this.productsService.products()
           );
-          this.isLoading.set(false);
+          this.productsService.setProductsLoading(false);
         },
         error: (error) => {
           console.error('Error loading data:', error);
           this.error.set(error.message || 'Failed to load data');
-          this.isLoading.set(false);
+          this.productsService.setProductsLoading(false);
         },
       });
   }
