@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
 
     // Example API call using the service
     this.apiService
-      .getProductsBySubCategory('Cell Phones and Accessories')
+      .getProductsBySubCategory('Sports, Hobbies, & Misc')
       .subscribe({
         next: (data) => {
           console.log('API data loaded:', data);

@@ -9,10 +9,8 @@ import { ApiService } from '../../services/api.service';
   imports: [ProductCardComponent],
   template: `
     <div class="px-4 py-6 max-w-7xl mx-auto">
-      <div class="flex justify-center mb-2">
-        <div class="text-gray-700 mr-2">Filter products by category:</div>
-      </div>
-      <div class="flex justify-center mb-6">
+      <div class="flex justify-center items-center mb-6 gap-3">
+        <div class="text-gray-700">Filter by category:</div>
         <select
           class="border border-gray-300 rounded-xl px-3 py-2 bg-white shadow-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
           (change)="onCategoryChange($event)"
@@ -25,6 +23,21 @@ import { ApiService } from '../../services/api.service';
           <option value="Fashion">Fashion</option>
           <option value="Movies, TV, & Games">Movies, TV, & Games</option>
         </select>
+      </div>
+      <div class="flex justify-center items-center mb-6 gap-3">
+        <input
+          type="text"
+          placeholder="Or search..."
+          class="border border-gray-300 rounded-xl px-3 py-2 bg-white shadow-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors w-64"
+          (keyup.enter)="onSearch($event)"
+          (input)="onSearchInput($event)"
+        />
+        <button
+          class="bg-blue-500 text-white px-4 py-2 rounded-xl shadow-md hover:bg-blue-600 transition-colors"
+          (click)="onSearchClick()"
+        >
+          Search
+        </button>
       </div>
 
       @if (productsService.productsLoading()) {
@@ -55,6 +68,20 @@ import { ApiService } from '../../services/api.service';
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+    
+    input::placeholder {
+      color: #9ca3af;
+      opacity: 1;
+    }
+    
+    input::-webkit-input-placeholder {
+      color: #9ca3af;
+    }
+    
+    input::-moz-placeholder {
+      color: #9ca3af;
+      opacity: 1;
+    }
   `,
 })
 export class ProductListComponent {
@@ -62,12 +89,70 @@ export class ProductListComponent {
   private apiService = inject(ApiService);
   products = this.productsService.products;
 
+  private currentSearchTerm = signal<string>('');
+
   onCategoryChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedCategory = selectElement.value;
 
     console.log('Category changed to:', selectedCategory);
     this.loadProductsByCategory(selectedCategory);
+  }
+
+  onSearchInput(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    this.currentSearchTerm.set(inputElement.value);
+  }
+
+  onSearch(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const searchTerm = inputElement.value.trim();
+    if (searchTerm) {
+      this.performSearch(searchTerm);
+    }
+  }
+
+  onSearchClick() {
+    const searchTerm = this.currentSearchTerm().trim();
+    if (searchTerm) {
+      this.performSearch(searchTerm);
+    }
+  }
+
+  private performSearch(searchTerm: string) {
+    console.log('Searching for:', searchTerm);
+
+    // Set loading state
+    this.productsService.setProductsLoading(true);
+
+    // Make API call
+    this.apiService.searchProducts(searchTerm).subscribe({
+      next: (data: any) => {
+        console.log('Search results:', data);
+        const fetchedProducts: Product[] = [];
+
+        // Handle the API response - assuming it has the same structure as category search
+        const products = data.products || data; // Handle different response structures
+
+        for (const item of products) {
+          const numberPrice = Number(item.startingBid || item.price);
+          const product: Product = {
+            id: item.id,
+            title: item.name || item.title,
+            price: numberPrice,
+            image: item.imageUrl || item.image,
+          };
+          fetchedProducts.push(product);
+        }
+
+        this.productsService.setProducts(fetchedProducts);
+        this.productsService.setProductsLoading(false);
+      },
+      error: (error) => {
+        console.error('Error searching products:', error);
+        this.productsService.setProductsLoading(false);
+      },
+    });
   }
 
   private loadProductsByCategory(category: string) {
