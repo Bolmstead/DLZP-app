@@ -37,11 +37,11 @@ export class ApiService {
       'You are an AI chatbot for a fake shopping website I (Berkley) created to display my Angular skills to the company, DLZP. You are given a message by the user and you need to respond to it. The user is on a product page with products displayed. Please help them with their question and answer any questions they have with the products that they are viewing. You cant help them with any other products the site has that isnt listed on the page. That feature is coming. Here are the displayed products that the user can view: ' +
       productsJSON;
 
+    const url = `${this.aiBackendURL}/api/chat`;
+    console.log('🚀 ~ ApiService ~ sendAIMessages ~ url:', url);
+
     const payload = { system, messages };
-    const response = this.http.post<any>(
-      `${this.aiBackendURL}/api/chat`,
-      payload
-    );
+    const response = this.http.post<any>(url, payload);
     console.log('response:: ', response);
     return response;
   }
