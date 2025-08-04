@@ -17,10 +17,13 @@ import { ApiService } from '../../services/api.service';
           class="border border-gray-300 rounded-xl px-3 py-2 bg-white shadow-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
           (change)="onCategoryChange($event)"
         >
-          <option value="all">Sports, Hobbies, & Misc</option>
-          <option value="candy">Candy</option>
-          <option value="electronics">Electronics</option>
-          <option value="clothing">Clothing</option>
+          <option value="Sports, Hobbies, & Misc">
+            Sports, Hobbies, & Misc
+          </option>
+          <option value="Electronics">Electronics</option>
+          <option value="Home & Garden">Home & Garden</option>
+          <option value="Fashion">Fashion</option>
+          <option value="Movies, TV, & Games">Movies, TV, & Games</option>
         </select>
       </div>
 
@@ -59,14 +62,6 @@ export class ProductListComponent {
   private apiService = inject(ApiService);
   products = this.productsService.products;
 
-  // Map select values to API subcategories
-  private categoryMap: { [key: string]: string } = {
-    all: 'Cell Phones and Accessories', // Default category
-    electronics: 'Cell Phones and Accessories',
-    candy: 'Health and Beauty',
-    clothing: 'Clothing and Accessories',
-  };
-
   onCategoryChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedCategory = selectElement.value;
@@ -76,14 +71,11 @@ export class ProductListComponent {
   }
 
   private loadProductsByCategory(category: string) {
-    const apiCategory =
-      this.categoryMap[category] || 'Cell Phones and Accessories';
-
     // Set loading state
     this.productsService.setProductsLoading(true);
 
     // Make API call
-    this.apiService.getProductsBySubCategory(apiCategory).subscribe({
+    this.apiService.getProductsBySubCategory(category).subscribe({
       next: (data) => {
         console.log('Products loaded for category:', category, data);
         const fetchedProducts: Product[] = [];
