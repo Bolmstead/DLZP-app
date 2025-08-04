@@ -15,12 +15,13 @@ import { ApiService } from '../../services/api.service';
           class="border border-gray-300 rounded-xl px-3 py-2 bg-white shadow-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
           (change)="onCategoryChange($event)"
         >
+          <option value="Home & Garden">Home & Garden</option>
+
           <option value="Electronics">Electronics</option>
 
           <option value="Sports, Hobbies, & Misc">
             Sports, Hobbies, & Misc
           </option>
-          <option value="Home & Garden">Home & Garden</option>
           <option value="Fashion">Fashion</option>
           <option value="Movies, TV, & Games">Movies, TV, & Games</option>
         </select>
