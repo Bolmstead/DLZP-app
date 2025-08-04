@@ -39,34 +39,32 @@ export class AppComponent implements OnInit {
     this.error.set(null);
 
     // Example API call using the service
-    this.apiService
-      .getProductsBySubCategory('Sports, Hobbies, & Misc')
-      .subscribe({
-        next: (data) => {
-          console.log('API data loaded:', data);
-          const fetchedProducts: Product[] = [];
-          for (const item of data.products) {
-            const numberPrice = Number(item.startingBid);
-            const product: Product = {
-              id: item.id,
-              title: item.name,
-              price: numberPrice,
-              image: item.imageUrl,
-            };
-            fetchedProducts.push(product);
-          }
-          this.productsService.setProducts(fetchedProducts);
-          console.log(
-            'productsService.products():: ',
-            this.productsService.products()
-          );
-          this.productsService.setProductsLoading(false);
-        },
-        error: (error) => {
-          console.error('Error loading data:', error);
-          this.error.set(error.message || 'Failed to load data');
-          this.productsService.setProductsLoading(false);
-        },
-      });
+    this.apiService.getProductsBySubCategory('Electronics').subscribe({
+      next: (data) => {
+        console.log('API data loaded:', data);
+        const fetchedProducts: Product[] = [];
+        for (const item of data.products) {
+          const numberPrice = Number(item.startingBid);
+          const product: Product = {
+            id: item.id,
+            title: item.name,
+            price: numberPrice,
+            image: item.imageUrl,
+          };
+          fetchedProducts.push(product);
+        }
+        this.productsService.setProducts(fetchedProducts);
+        console.log(
+          'productsService.products():: ',
+          this.productsService.products()
+        );
+        this.productsService.setProductsLoading(false);
+      },
+      error: (error) => {
+        console.error('Error loading data:', error);
+        this.error.set(error.message || 'Failed to load data');
+        this.productsService.setProductsLoading(false);
+      },
+    });
   }
 }
