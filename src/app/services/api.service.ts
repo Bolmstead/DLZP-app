@@ -10,7 +10,7 @@ export class ApiService {
 
   // Base URL for your API - replace with your actual API base URL
   private freebayBaseURL = 'https://freebay-backend-310a33634097.herokuapp.com';
-  private aiBackendURL = 'https://dlzp-app-backend-3f9d0e934ad7.herokuapp.com/';
+  private aiBackendURL = 'https://dlzp-app-backend-3f9d0e934ad7.herokuapp.com';
 
   // Example: Get user data
   getProductsBySubCategory(category: string): Observable<any> {
