@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Product } from '../../../models/products.model';
 import { ProductCardComponent } from './product-card/product-card.component';
+import { ProductsService } from '../../services/products.service';
 
 @Component({
   selector: 'app-product-list-component',
@@ -19,28 +20,6 @@ import { ProductCardComponent } from './product-card/product-card.component';
   styles: ``,
 })
 export class ProductListComponent {
-  // placeholder products
-  products = signal<Product[]>([
-    {
-      id: 1,
-      title: 'Mike and Ikes',
-      price: 100,
-      image:
-        'https://www.mikeandike.com/wp-content/uploads/sites/76/2024/05/MI-Orig.webp',
-    },
-    {
-      id: 2,
-      title: 'Circus Peanuts',
-      price: 200,
-      image:
-        'https://res.cloudinary.com/nassau-candy/image/upload/c_fit,w_1000,h_1000,f_auto/19071.jpg',
-    },
-    {
-      id: 3,
-      title: 'Necco Wafers',
-      price: 300,
-      image:
-        'https://www.candy-bouquet.ca/cdn/shop/products/61mr7wtnlxl_1000x.jpg?v=1625344129',
-    },
-  ]);
+  private productsService = inject(ProductsService);
+  products = this.productsService.products;
 }

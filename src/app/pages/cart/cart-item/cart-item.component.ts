@@ -20,7 +20,7 @@ import { CartService } from '../../../services/cart.service';
           {{ product().title }}
         </p>
         <p class="text-lg font-semibold text-green-600">
-          {{ '$' + product().price }}
+          {{ '$' + product().price.toFixed(2) }}
         </p>
       </div>
       <div class="w-full sm:w-auto sm:flex-shrink-0">
