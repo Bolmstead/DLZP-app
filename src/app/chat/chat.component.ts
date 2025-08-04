@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ApiService } from '../services/api.service';
+import { ProductsService } from '../services/products.service';
 
 interface ChatMessage {
   id: number;
@@ -31,8 +33,7 @@ interface ChatMessage {
       <div class="chat-box">
         <!-- Chat Header -->
         <div class="chat-header">
-          <h3>Customer Support</h3>
-          <span class="online-indicator">● Online</span>
+          <h3>AI Customer Support</h3>
         </div>
 
         <!-- Messages Area -->
@@ -51,6 +52,20 @@ interface ChatMessage {
             </div>
           </div>
           }
+
+          <!-- Loading indicator when AI is thinking -->
+          @if (isLoading()) {
+          <div class="message bot-message">
+            <div class="message-content typing-indicator">
+              <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              AI is thinking...
+            </div>
+          </div>
+          }
         </div>
 
         <!-- Input Area -->
@@ -65,9 +80,9 @@ interface ChatMessage {
           <button
             class="send-btn"
             (click)="sendMessage()"
-            [disabled]="!currentMessage.trim()"
+            [disabled]="!currentMessage.trim() || isLoading()"
           >
-            Send
+            @if (isLoading()) { Sending... } @else { Send }
           </button>
         </div>
       </div>
@@ -243,6 +258,47 @@ interface ChatMessage {
       cursor: not-allowed;
     }
 
+    /* Typing indicator styles */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-style: italic;
+      color: #6b7280;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 2px;
+    }
+
+    .typing-dots span {
+      width: 6px;
+      height: 6px;
+      background: #6b7280;
+      border-radius: 50%;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-dots span:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .typing-dots span:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    @keyframes typing {
+      0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      40% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
     /* Mobile responsiveness */
     @media (max-width: 768px) {
       .chat-box {
@@ -258,7 +314,11 @@ interface ChatMessage {
   `,
 })
 export class ChatComponent {
+  private apiService = inject(ApiService);
+  private productsService = inject(ProductsService);
+
   isOpen = signal(false);
+  isLoading = signal(false);
   messages = signal<ChatMessage[]>([
     {
       id: 1,
@@ -276,7 +336,7 @@ export class ChatComponent {
 
   sendMessage() {
     const message = this.currentMessage.trim();
-    if (!message) return;
+    if (!message || this.isLoading()) return;
 
     // Add user message
     const userMessage: ChatMessage = {
@@ -288,17 +348,51 @@ export class ChatComponent {
 
     this.messages.update((messages) => [...messages, userMessage]);
     this.currentMessage = '';
+    this.isLoading.set(true);
 
-    // Simulate bot response
-    setTimeout(() => {
-      const botResponse: ChatMessage = {
-        id: this.messageIdCounter++,
-        text: this.generateBotResponse(message),
-        isUser: false,
-        timestamp: new Date(),
-      };
-      this.messages.update((messages) => [...messages, botResponse]);
-    }, 1000);
+    // Convert messages to the format expected by your backend
+    const apiMessages = this.messages().map((msg) => ({
+      role: msg.isUser ? 'user' : 'assistant',
+      content: msg.text,
+    }));
+
+    // Get current products from the products service
+    const currentProducts = this.productsService.products();
+
+    // Call your AI backend
+    this.apiService.sendAIMessages(apiMessages, currentProducts).subscribe({
+      next: (response) => {
+        console.log('AI Backend response:', response);
+
+        let aiResponseText =
+          response ||
+          'I apologize, but I encountered an issue processing your request. Please try again.';
+
+        const botResponse: ChatMessage = {
+          id: this.messageIdCounter++,
+          text: aiResponseText,
+          isUser: false,
+          timestamp: new Date(),
+        };
+
+        this.messages.update((messages) => [...messages, botResponse]);
+        this.isLoading.set(false);
+      },
+      error: (error) => {
+        console.error('Error calling AI backend:', error);
+
+        // Fallback to local response if API fails
+        const fallbackResponse: ChatMessage = {
+          id: this.messageIdCounter++,
+          text: this.generateBotResponse(message),
+          isUser: false,
+          timestamp: new Date(),
+        };
+
+        this.messages.update((messages) => [...messages, fallbackResponse]);
+        this.isLoading.set(false);
+      },
+    });
   }
 
   private generateBotResponse(userMessage: string): string {
