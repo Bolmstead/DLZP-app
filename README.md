@@ -1,59 +1,140 @@
-# AngularDLZP
+# Berkley's DLZP Angular Shopping App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.15.
+Hi, my name is Berkley Olmstead, an applicant for the Full Stack
+Developer role at DLZP. I don't have experience with Angular and I
+learned it is the frontend framework DLZP uses.
 
-## Development server
+So, I decided to learn the basics of Angular and build this site using the
+framework. It is a fake shopping website with an AI chatbot that
+utilizes the Anthropic API.
 
-To start a local development server, run:
+Please feel free to email me if you have any questions: olms2074&#64;gmail.com. Thank you!
+
+## Features
+
+- **Product Catalog**: Browse products with filtering by subcategories (Sports, Hobbies, & Misc)
+- **Auction System**: Products with starting bid functionality
+- **Shopping Cart**: Add and manage items in your cart
+- **Live Chat**: Integrated chat component for customer support
+- **Responsive Design**: Built with Tailwind CSS for modern, responsive UI
+- **Modern Angular**: Utilizes Angular 19 with signal-based reactive state management
+
+## Tech Stack
+
+- **Frontend**: Angular 19
+- **Styling**: Tailwind CSS
+- **State Management**: Angular Signals
+- **HTTP Client**: Angular HttpClient with RxJS
+- **Routing**: Angular Router
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (version 18 or higher)
+- npm or yarn
+- Angular CLI 19.2.15+
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Development
+
+To start the development server:
 
 ```bash
+npm start
+# or
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The application will be available at `http://localhost:4200/`. The app will automatically reload when you make changes to the source files.
 
-## Code scaffolding
+### Building
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+To build the project for production:
+
+```bash
+npm run build
+# or
+ng build
+```
+
+The build artifacts will be stored in the `dist/` directory, optimized for production deployment.
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── components/          # Reusable UI components
+│   │   ├── header/         # Application header
+│   │   └── primary-button/ # Button component
+│   ├── pages/              # Page components
+│   │   ├── cart/           # Shopping cart page
+│   │   └── products-list/  # Product listing page
+│   ├── services/           # Business logic services
+│   │   ├── api.service.ts  # API communication
+│   │   ├── cart.service.ts # Cart management
+│   │   └── products.service.ts # Product data management
+│   └── chat/               # Chat functionality
+├── models/                 # TypeScript interfaces
+└── styles.css             # Global styles
+```
+
+## Available Scripts
+
+- `npm start` - Start development server
+- `npm run build` - Build for production
+- `npm run watch` - Build in watch mode
+- `npm test` - Run unit tests
+
+## Development Tools
+
+This project uses:
+
+- **Angular CLI** for scaffolding and build tools
+- **TypeScript** for type safety
+- **RxJS** for reactive programming
+- **Karma & Jasmine** for testing
+
+### Generating Components
+
+To generate a new component:
 
 ```bash
 ng generate component component-name
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+For other schematics (services, pipes, etc.):
 
 ```bash
 ng generate --help
 ```
 
-## Building
+## Testing
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Run unit tests:
 
 ```bash
+npm test
+# or
 ng test
 ```
 
-## Running end-to-end tests
+## Contributing
 
-For end-to-end (e2e) testing, run:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test your changes
+5. Submit a pull request
 
-```bash
-ng e2e
-```
+## License
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is private and proprietary.
